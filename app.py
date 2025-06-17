@@ -7,7 +7,8 @@ import numpy as np
 @st.cache_resource
 def load_components():
 
-    vectorizer = load_model("vectorizer.keras")
+    model = load_model("modelo_transformer.h5", compile=False)
+    vectorizer = load_model("vectorizer.keras", compile=False)
     return model, vectorizer
 
 # Predict function
