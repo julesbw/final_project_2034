@@ -7,7 +7,7 @@ import numpy as np
 @st.cache_resource
 def load_components():
 
-    model = load_model("modelo_transformer.h5", compile=False)
+    model = load_model("model_transformer_2.h5", compile=False)
     vectorizer = load_model("vectorizer.keras", compile=False)
     return model, vectorizer
 
