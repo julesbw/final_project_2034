@@ -1,0 +1,7 @@
+streamlit
+tensorflow~=2.13
+transformers
+scikit-learn
+matplotlib
+seaborn
+pandas
