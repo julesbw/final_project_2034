@@ -16,33 +16,30 @@ with st.sidebar:
     )
 
 
+# @st.cache_resource
+# def load_model_and_vectorizer():
+#     model = tf.keras.models.load_model("models/model_transformer_2.h5", compile=False)
+#     vectorizer = tf.keras.models.load_model("models/vectorizer_2.keras", compile=False)
+#     return model, vectorizer
 
-@st.cache_resource
-def load_model_and_vectorizer():
-    model = tf.keras.models.load_model("models/model_transformer_2.h5", compile=False)
-    vectorizer = tf.keras.models.load_model("models/vectorizer_2.keras", compile=False)
-    return model, vectorizer
+# model, vectorizer = load_model_and_vectorizer()
 
-model, vectorizer = load_model_and_vectorizer()
+
 # Inference Page
 if selected == "Inference":
     st.title("Inference Interface")
-    st.write("Input a sentence to get the model's prediction and confidence.")
+    st.write("Enter a news headline or short sentence to classify it as Real or Fake.")
 
+    # Text input box
     user_input = st.text_area("Enter your text here:")
 
-    if st.button("Classify") and user_input.strip() != "":
-        # Vectorize input
-        input_tensor = vectorizer(tf.constant([user_input]))
-        
-        # Predict
-        prediction = model.predict(input_tensor)[0][0]
-        label = "Real" if prediction > 0.5 else "Fake"
-        confidence = float(prediction) if label == "Real" else 1 - float(prediction)
-
-        # Display Results
-        st.success(f"**Prediction**: {label}")
-        st.info(f"**Confidence**: {confidence:.2%}")
+    if st.button("Classify"):
+        if user_input.strip() == "":
+            st.warning("Please enter some text to classify.")
+        else:
+            # Placeholder output
+            st.markdown("**Prediction:** Real")
+            st.markdown("**Confidence:** 87.32%")
 
 # Dataset Visualization Page
 elif selected == "Dataset Visualization":
