@@ -29,29 +29,36 @@ if selected == "Inference":
 # Dataset Visualization Page
 elif selected == "Dataset Visualization":
     st.title("Dataset Visualization")
-    st.write("This section displays various insights from the dataset.")
+    st.write("This section displays insights from the dataset.")
 
-    # Example placeholders for visualizations
-    st.subheader("Class Distribution")
-    st.pyplot()
-
+    # Token Length Histogram
     st.subheader("Token Length Histogram")
-    st.pyplot()
+    st.image("images/token_length_hist.png", use_column_width=True)
 
+    # Word Cloud
     st.subheader("Word Cloud")
-    st.image("wordcloud.png")  # Replace with actual word cloud file path if available
+    st.image("images/wordcloud.png", use_column_width=True)
+
 
 # Hyperparameter Tuning Page
 elif selected == "Hyperparameter Tuning":
     st.title("Hyperparameter Tuning")
-    st.write("Below are the results from hyperparameter optimization.")
+    st.write("This section shows results from hyperparameter optimization using Optuna.")
 
-    st.subheader("Tuning Summary")
-    st.markdown("- Tuned Parameters: Learning Rate, Batch Size, Dropout Rate")
-    st.markdown("- Best Configuration: ...")
+    st.subheader("Tuned Hyperparameters")
+    st.markdown("""
+    - **Embedding Dimension**: 128  
+    - **Number of Attention Heads**: 2  
+    - **Feedforward Dimension**: 128  
+    - **Dropout Rate**: 0.298  
+    - **Learning Rate**: 2.17e-5  
+    """)
 
-    st.subheader("Performance over Trials")
-    st.line_chart(data=None)  # Replace with actual tuning performance data
+    st.subheader("Performance Over Trials")
+    st.image("images/optuna_optimization_history.png")
+
+    st.subheader("Hyperparameter Importance")
+    st.image("images/optuna_param_importances.png")
 
 # Model Analysis Page
 elif selected == "Model Analysis":
@@ -59,12 +66,27 @@ elif selected == "Model Analysis":
     st.write("This page explains model performance, dataset challenges, and detailed error analysis.")
 
     st.subheader("Classification Report")
-    st.text("Precision, Recall, F1-score")
+    st.text("""
+Classification Report:
+              precision    recall  f1-score   support
+    Fake          0.95      0.94      0.94      4669
+    Real          0.94      0.94      0.94      4311
+
+    accuracy                           0.94      8980
+    macro avg      0.94      0.94      0.94      8980
+    weighted avg   0.94      0.94      0.94      8980
+    """)
 
     st.subheader("Confusion Matrix")
-    st.pyplot()
+    st.image("images/confusion_matriz.png")
 
     st.subheader("Error Analysis")
-    st.markdown("- False Positives/Negatives examples")
-    st.markdown("- Error patterns: sarcasm, ambiguous wording, etc.")
-    st.markdown("- Suggestions for improvement: More data, better labeling, ensembling")
+    st.markdown("""
+    - Most errors occur in borderline cases where the text is ambiguous or lacks strong signals of veracity.
+    - False positives are sometimes due to sensational language used in real headlines.
+    - False negatives include fake headlines that mimic journalistic tone or cite credible sources.
+    - Model could improve with:
+        - More annotated training data
+        - Context-aware embeddings (e.g., adding surrounding paragraph)
+        - Ensemble strategies combining rule-based filters with deep learning
+    """)
