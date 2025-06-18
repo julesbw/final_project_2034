@@ -6,3 +6,4 @@ matplotlib
 seaborn
 pandas
 numpy==1.23.5
+streamlit-option-menu
