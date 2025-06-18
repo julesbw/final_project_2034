@@ -78,7 +78,7 @@ Classification Report:
     """)
 
     st.subheader("Confusion Matrix")
-    st.image("images/confusion_matriz.png")
+    st.image("images/confusion_matrix.png")
 
     st.subheader("Error Analysis")
     st.markdown("""
