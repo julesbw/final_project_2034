@@ -63,25 +63,54 @@ elif selected == "Dataset Visualization":
 # Hyperparameter Tuning Page
 elif selected == "Hyperparameter Tuning":
     st.title("Hyperparameter Tuning")
-    st.write("Below are the results from hyperparameter optimization.")
+    st.write(
+        """
+        This section summarizes the hyperparameter optimization performed using Optuna. 
+        The goal was to find the best configuration of model parameters to maximize validation accuracy.
+        """
+    )
 
-    st.subheader("Tuning Summary")
-    st.markdown("""
-    - **Tuned Parameters**: Embedding Dimension, Number of Attention Heads, Feed-forward Dimension, Dropout Rate, Learning Rate.
-    - **Best Configuration**: Embedding Dim = 64, Heads = 2, FF Dim = 128, Dropout = 0.29, LR = 2.17e-5
-    """)
+    st.subheader("Optimization History")
+    st.image("images/optuna_optimization_history.png")
+    st.markdown(
+        """
+        The line plot above shows how the objective value (validation accuracy) evolved over the trials.
+        Although only a few trials were run due to time constraints, we can observe a clear improvement
+        by the third trial, where accuracy reached **0.971**. This upward trend indicates that further trials 
+        could yield even better configurations.
+        """
+    )
 
-    st.subheader("Performance over Trials")
-    st.image("images/optuna_trials.png")
-    st.markdown("""
-    **Insight:** The performance curve shows that significant improvement occurred in the first few trials, with marginal gains thereafter. This indicates that early exploration yields the most impactful configurations, while later refinements provide diminishing returns.
-    """)
+    st.subheader("Hyperparameter Importance")
+    st.image("images/optuna_param_importances.png")
+    st.markdown(
+        """
+        The bar chart above reveals which hyperparameters had the greatest impact on model performance.
+        
+        - **Dropout Rate** was the most influential, contributing nearly 46% to the objective value.
+        - **Feedforward Dimension (ff_dim)** and **Embedding Dimension** also played significant roles.
+        - Interestingly, the **number of attention heads** had the least effect, suggesting that model capacity
+          was not strongly limited by this factor in our configuration.
 
-    st.subheader("Best Parameters Visualized")
-    st.image("images/optuna_best.png")
-    st.markdown("""
-    **Insight:** The best-performing configuration balanced model complexity with generalization by avoiding overly deep or wide layers. The low learning rate also prevented overshooting during optimization, contributing to more stable convergence.
-    """)
+        These insights can help prioritize which parameters to fine-tune in future iterations of model design.
+        """
+    )
+
+    st.subheader("Best Configuration Found")
+    st.markdown(
+        """
+        After tuning, the best hyperparameters were:
+
+        - Embedding Dimension: `64`
+        - Number of Attention Heads: `2`
+        - Feedforward Dimension (ff_dim): `128`
+        - Dropout Rate: `0.2983`
+        - Learning Rate: `2.17e-5`
+
+        These values were used to retrain the final model evaluated in the analysis section.
+        """
+    )
+
 
 # Model Analysis Page
 elif selected == "Model Analysis":
