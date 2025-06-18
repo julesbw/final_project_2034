@@ -16,13 +16,13 @@ with st.sidebar:
     )
 
 
-# @st.cache_resource
-# def load_model_and_vectorizer():
-#     model = tf.keras.models.load_model("models/model_transformer_2.h5", compile=False)
-#     vectorizer = tf.keras.models.load_model("models/vectorizer_2.keras", compile=False)
-#     return model, vectorizer
+@st.cache_resource
+def load_model_and_vectorizer():
+    model = tf.keras.models.load_model("models/modelo_transformer.keras", compile=False)
+    vectorizer = tf.keras.models.load_model("vectorizer.keras", compile=False)
+    return model, vectorizer
 
-# model, vectorizer = load_model_and_vectorizer()
+model, vectorizer = load_model_and_vectorizer()
 
 
 # Inference Page
@@ -37,9 +37,16 @@ if selected == "Inference":
         if user_input.strip() == "":
             st.warning("Please enter some text to classify.")
         else:
-            # Placeholder output
-            st.markdown("**Prediction:** Real")
-            st.markdown("**Confidence:** 87.32%")
+            # Vectorizar entrada
+            vectorized_input = vectorizer(tf.convert_to_tensor([user_input]))
+
+            # Hacer predicción
+            prob = model.predict(vectorized_input)[0][0]
+            label = "Real" if prob > 0.5 else "Fake"
+
+            # Mostrar resultado
+            st.markdown(f"**Prediction:** {label}")
+            st.markdown(f"**Confidence:** {prob:.2%}")
 
 # Dataset Visualization Page
 elif selected == "Dataset Visualization":
@@ -132,7 +139,7 @@ elif selected == "Model Analysis":
     - Its ability to generalize well even with relatively small datasets when fine-tuned.
     - Its strong performance in prior work related to misinformation and sentiment analysis.
     """)
-    
+
     st.subheader("Classification Report")
     st.text("""
     Classification Report:
