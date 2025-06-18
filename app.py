@@ -47,36 +47,44 @@ if selected == "Inference":
 # Dataset Visualization Page
 elif selected == "Dataset Visualization":
     st.title("Dataset Visualization")
-    st.write("This section displays insights from the dataset.")
+    st.write("This section displays various insights from the dataset.")
 
     # Token Length Histogram
     st.subheader("Token Length Histogram")
-    st.image("images/token_length_hist.png", use_column_width=True)
+    st.image("images/token_length_hist.png")
+    st.markdown("""
+    **Insight:** The histogram of token lengths indicates that most input texts have between 20 and 60 tokens. This confirms that the preprocessing step (e.g., truncation or padding) should consider a maximum length within this range. Longer texts may lose information if overly truncated, while shorter ones could lead to inefficient resource usage if padded excessively.
+    """)
 
     # Word Cloud
     st.subheader("Word Cloud")
-    st.image("images/wordcloud.png", use_column_width=True)
-
+    st.image("images/wordcloud.png")
+    st.markdown("""
+    **Insight:** The most frequent words include political figures ("Trump", "Obama", "Clinton") and terms like "video", "tweet", and "attack". This suggests that the dataset is highly political and may reflect real-world media trends, potentially introducing bias. Prevalent named entities could also mislead a model into using entity presence rather than semantic context.
+    """)
 
 # Hyperparameter Tuning Page
 elif selected == "Hyperparameter Tuning":
     st.title("Hyperparameter Tuning")
-    st.write("This section shows results from hyperparameter optimization using Optuna.")
+    st.write("Below are the results from hyperparameter optimization.")
 
-    st.subheader("Tuned Hyperparameters")
+    st.subheader("Tuning Summary")
     st.markdown("""
-    - **Embedding Dimension**: 128  
-    - **Number of Attention Heads**: 2  
-    - **Feedforward Dimension**: 128  
-    - **Dropout Rate**: 0.298  
-    - **Learning Rate**: 2.17e-5  
+    - **Tuned Parameters**: Embedding Dimension, Number of Attention Heads, Feed-forward Dimension, Dropout Rate, Learning Rate.
+    - **Best Configuration**: Embedding Dim = 64, Heads = 2, FF Dim = 128, Dropout = 0.29, LR = 2.17e-5
     """)
 
-    st.subheader("Performance Over Trials")
-    st.image("images/optuna_optimization_history.png")
+    st.subheader("Performance over Trials")
+    st.image("images/optuna_trials.png")
+    st.markdown("""
+    **Insight:** The performance curve shows that significant improvement occurred in the first few trials, with marginal gains thereafter. This indicates that early exploration yields the most impactful configurations, while later refinements provide diminishing returns.
+    """)
 
-    st.subheader("Hyperparameter Importance")
-    st.image("images/optuna_param_importances.png")
+    st.subheader("Best Parameters Visualized")
+    st.image("images/optuna_best.png")
+    st.markdown("""
+    **Insight:** The best-performing configuration balanced model complexity with generalization by avoiding overly deep or wide layers. The low learning rate also prevented overshooting during optimization, contributing to more stable convergence.
+    """)
 
 # Model Analysis Page
 elif selected == "Model Analysis":
@@ -85,26 +93,33 @@ elif selected == "Model Analysis":
 
     st.subheader("Classification Report")
     st.text("""
-Classification Report:
-              precision    recall  f1-score   support
-    Fake          0.95      0.94      0.94      4669
-    Real          0.94      0.94      0.94      4311
+    Classification Report:
 
-    accuracy                           0.94      8980
-    macro avg      0.94      0.94      0.94      8980
-    weighted avg   0.94      0.94      0.94      8980
+        precision    recall  f1-score   support
+
+        Fake       0.95      0.94      0.94      4669
+        Real       0.94      0.94      0.94      4311
+
+        accuracy                         0.94      8980
+        macro avg    0.94      0.94      0.94      8980
+        weighted avg 0.94      0.94      0.94      8980
+    """)
+    st.markdown("""
+    **Insight:** With an F1-score of 0.94 on both classes, the model demonstrates strong performance and balanced predictions. The macro and weighted averages confirm consistency across fake and real labels, suggesting no class imbalance or systemic bias in performance.
     """)
 
     st.subheader("Confusion Matrix")
     st.image("images/confusion_matrix.png")
+    st.markdown("""
+    **Insight:** The confusion matrix reveals relatively few false positives and false negatives. The classifier correctly identifies the majority of both classes, and the low off-diagonal values imply minimal confusion between categories.
+    """)
 
     st.subheader("Error Analysis")
     st.markdown("""
-    - Most errors occur in borderline cases where the text is ambiguous or lacks strong signals of veracity.
-    - False positives are sometimes due to sensational language used in real headlines.
-    - False negatives include fake headlines that mimic journalistic tone or cite credible sources.
-    - Model could improve with:
-        - More annotated training data
-        - Context-aware embeddings (e.g., adding surrounding paragraph)
-        - Ensemble strategies combining rule-based filters with deep learning
+    - **False Positives** may occur with satirical headlines or sensationalist language resembling misinformation.
+    - **False Negatives** might be tied to subtle disinformation where tone and facts are hard to distinguish without external knowledge.
+    - **Improvement Suggestions:**
+        - Introduce external fact-checking features.
+        - Fine-tune with more balanced real/fake subsets or adversarial samples.
+        - Use transformer ensembles to aggregate diverse textual signals.
     """)
