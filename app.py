@@ -117,6 +117,22 @@ elif selected == "Model Analysis":
     st.title("Model Analysis and Justification")
     st.write("This page explains model performance, dataset challenges, and detailed error analysis.")
 
+    st.subheader("Model Architecture")
+    st.markdown("""
+    The selected model is based on a **transformer encoder architecture**, which is highly effective for understanding the context and structure of textual data.
+    For the task of **fake news detection**, transformer encoders such as RoBERTa or DeBERTa are particularly powerful, as they can capture nuanced patterns in language, 
+    such as sarcasm, misinformation tone, or subtle factual inconsistencies.
+
+    Compared to traditional approaches like LSTM or CNNs, transformer-based encoders offer superior handling of long-range dependencies 
+    and allow the model to consider all words in the input simultaneously. This makes them ideal for processing news headlines or full articles 
+    where meaning often depends on context spread throughout the sentence.
+
+    In this project, the transformer encoder model was chosen due to:
+    - Its state-of-the-art performance in NLP classification tasks.
+    - Its ability to generalize well even with relatively small datasets when fine-tuned.
+    - Its strong performance in prior work related to misinformation and sentiment analysis.
+    """)
+    
     st.subheader("Classification Report")
     st.text("""
     Classification Report:
