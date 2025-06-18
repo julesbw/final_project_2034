@@ -9,7 +9,7 @@ st.set_page_config(page_title="Transformer Model App", layout="wide")
 with st.sidebar:
     selected = option_menu(
         menu_title="Navigation",
-        options=["Inference", "Dataset Visualization", "Hyperparameter Tuning", "Model Analysis"],
+        options=["Inference", "Dataset Visualization", "Hyperparameter Tuning", "Model Analysis", "About"],
         icons=["robot", "bar-chart", "sliders", "clipboard-data"],
         menu_icon="cast",
         default_index=0
@@ -148,4 +148,17 @@ elif selected == "Model Analysis":
         - Introduce external fact-checking features.
         - Fine-tune with more balanced real/fake subsets or adversarial samples.
         - Use transformer ensembles to aggregate diverse textual signals.
+    """)
+# About Page
+if selected == "About":
+    st.title("About the Author")
+    st.markdown("""
+    **Julio César Briones Wong**  
+    *Student ID:* A00838831  
+    *Course:* Modeling Learning with Artificial Intelligence  
+
+    This application was developed as part of the final project for the course "Modeling Learning with Artificial Intelligence".  
+    It demonstrates the use of a fine-tuned Transformer model for detecting fake news, with a user-friendly Streamlit interface that integrates real-time inference, dataset exploration, hyperparameter tuning visualizations, and performance analysis.
+    
+    I hope this tool not only showcases technical implementation, but also encourages further research and application of NLP models for social impact.  
     """)
